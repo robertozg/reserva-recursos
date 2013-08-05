@@ -40,6 +40,21 @@ SET default_with_oids = false;
 -- Name: recursos; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
+
+-- Database: pro
+
+-- DROP DATABASE proyecto;
+
+CREATE DATABASE proyecto
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Spanish_Chile.1252'
+       LC_CTYPE = 'Spanish_Chile.1252'
+       CONNECTION LIMIT = -1;
+
+
+
 CREATE TABLE recursos (
     id_recurso integer NOT NULL,
     tipo integer NOT NULL,
