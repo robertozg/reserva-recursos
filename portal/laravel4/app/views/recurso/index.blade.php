@@ -2,6 +2,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Sistema de Reserva de Recursos - Escuela de Inform&aacute;tica UTEM</title>
+        
 	<meta name="description" content="">
 	<meta name="author" content="">
 	
@@ -10,6 +11,7 @@
     <header>
 			<div class="row">
 				<h1>Sistema de Reserva de Recursos </h1>
+                                <h1> Recursos </h1>
                                 <h2>Escuela de informática UTEM</h2>
 				<hr>
 			</div>
@@ -35,6 +37,26 @@
 	<div class="grid_12"><span class="example"><strong>Pedir Recursos</strong></span></div>
 </div>
 </a>
+        @if($recursos)
+	<ul>
+		@foreach($recursos as $recurso)
+		<li> 
+			ID: {{$recurso->id_recursos}} - 
+			Nombre: {{$recurso->nombre_recurso}} -
+			Descripción: {{$recurso->descripcion}} -
+                        
+                        @if($recurso->estado == 1)
+                        Estado: Desocupado 
+                        {{HTML::link('reservas/'.$recurso->id_recursos,'Pedir')}}
+                        @else
+			Estado: ocupado
+                        @endif
+		</li>
+		@endforeach
+	</ul>
+@else
+ Todavia no hay ningun recurso
+@endif
 
 
 
@@ -42,3 +64,12 @@
         @yield('content')
     </body>
 </html>
+
+
+
+
+
+
+
+
+
