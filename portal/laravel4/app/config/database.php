@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'pgsql', //mysql pgsql
 
 	/*
 	|--------------------------------------------------------------------------
@@ -55,21 +55,23 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database',
+			'database'  => 'proyecto',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
+			'collation' => 'utf8_spanish2_ci',
 			'prefix'    => '',
 		),
 
-		'pgsql' => array(
+		'pgsql' => array(    
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'charset'  => 'utf8',
+			'port'     => '5432',  // invento
+			'database' => 'postgres',
+			'username' => 'postgres',
+			'password' => '1234',
+			'charset'  => 'UTF8',
+			'collation' => 'Spanish_Spain.1252', // invento
 			'prefix'   => '',
 			'schema'   => 'public',
 		),
@@ -115,7 +117,7 @@ return array(
 
 		'default' => array(
 			'host'     => '127.0.0.1',
-			'port'     => 6379,
+			'port'     => 6379,       
 			'database' => 0,
 		),
 
