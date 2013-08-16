@@ -11,31 +11,82 @@
 |
 */
 
-
-
 Route::get('/', function()
 {
 	return View::make('hello');
 });
-
-/////////////////////////////////////////////////////////////////////
-   
-Route::controller('usuarios','UserController');  // nombre de la pagina, nombre del controlador 
+ 
+Route::controller('usuarios','UserController');  
 
 Route::controller('recursos','RecursosController');
 
 Route::controller('reservas','ReservasController');
 
-//////////////////////////////////////////////////////////////////////
+Route::controller('horario','HorarioController');
 
 Route::controller('login','AuthController');  
-// ::any('login','AuthController@getLogin') nombre para entrar , Controlador@FuncionControlador
 
 Route::get('logout','AuthController@getLogout');
 
-/////////// FILTROS /////////////////////////////////////////////////////////////////////
-
 Route::get('admin', array('before' => 'auth', function()
 {
- return View::make('admin.dashboard'); // ruta de la vista
+ return View::make('admin.layout'); 
 }));
+
+Route::controller('historial','HistorialRecursosController');
+
+Route::get('PDF', function()
+{       
+    $users = User::all(); 
+    require_once("../vendor/dompdf/dompdf/dompdf_config.inc.php");
+    $html =  View::make('users.index')->with('users',$users);  
+    $dompdf = new DOMPDF();
+    $dompdf->load_html(utf8_decode($html));
+    $dompdf->set_paper('letter','landscape');
+    $dompdf->render();
+    date_default_timezone_set("America/Santiago");
+    $currentDate = date("d-m-Y");
+    $dompdf->stream($currentDate."_usuarios.pdf");
+});
+
+Route::get('PDF2', function()
+{        
+	$recursos = Recurso::all();
+    require_once("../vendor/dompdf/dompdf/dompdf_config.inc.php");
+    $html =View::make('recurso.index')->with('recursos',$recursos);
+    $dompdf = new DOMPDF();
+    $dompdf->load_html(utf8_decode($html));
+    $dompdf->set_paper('letter','landscape');
+    $dompdf->render();
+    date_default_timezone_set("America/Santiago");
+    $currentDate = date("d-m-Y");
+    $dompdf->stream($currentDate."_recursos.pdf");
+});
+
+Route::get('PDF3', function()  // FALTA 
+{        
+    $reservas = Reserva::all();
+    require_once("../vendor/dompdf/dompdf/dompdf_config.inc.php");
+    $html =  View::make('reserva.index')->with('reservas',$reservas);  
+    $dompdf = new DOMPDF();
+    $dompdf->load_html(utf8_decode($html));
+    $dompdf->render();
+    date_default_timezone_set("America/Santiago");
+    $currentDate = date("d-m-Y");
+    $dompdf->stream($currentDate."_reservas.pdf");;
+});
+
+Route::get('PDF4',function(){
+
+    $eliminados = Elimina::all();
+    $ingresados = Ingresa::all(); 
+        
+    $html = View::make('recurso.historial')->with('eliminados',$eliminados)->with('ingresados',$ingresados);
+    require_once("../vendor/dompdf/dompdf/dompdf_config.inc.php");
+    $dompdf = new DOMPDF();
+    $dompdf->load_html(utf8_decode($html));
+    $dompdf->render();
+    date_default_timezone_set("America/Santiago");
+    $currentDate = date("d-m-Y");
+    $dompdf->stream($currentDate."_HistorialRecursos.pdf");;
+});

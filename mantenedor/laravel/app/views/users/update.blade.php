@@ -1,26 +1,59 @@
-<h1>Actualizar un Usuario </h1>
+@extends('admin.layout')
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8"/> 
+<title>  Actualizar Usuario </title>  
+</head>
 
-{{ Form::open() }}
+<body>
 
-Nombre: {{ Form::text('nombre',$user->nombre_user)}} <br />
+@section('content')
+{{ HTML::style('css/style.css') }}
+ 
+<h1>Actualizar Usuario: {{$user->id_usuario}}<h1>
 
-Email:  {{ Form::text('email',$user->email)}} <br />
+    {{Form::open()}} 
+<table>
+  <tr class="login">
+  	<td class="login">  Nombre:                   </td>
+  	<td class="login"> {{ Form::text('nombre')}}  </td>
+  </tr>
+  <tr class="login">	
+  	<td class="login">   Email:   				  </td>
+  	<td class="login">	 {{ Form::text('email')}} </td>
+  </tr>
+  <tr class="login">	
+	<td class="login">   Perfil de usuario:       </td>
+    <td class="login">{{  Form::select('perfil', array(
+                  2 => 'Usuario',
+                  1 => 'Admnistrador'),$user->perfil);   }}  </td>
+  </tr>
+  <tr class="login">                  
+    <td class="login"> Password:  					         </td>
+    <td class="login">{{ Form::password('password')}}        </td>
+   </tr>
+   <tr class="login"> 
+    <td class="login"> Telefóno:                             </td>
+    <td class="login"> {{ Form::text('fono')}}               </td>
+   </tr> 
 
-Perfil de usuario:  {{ Form::text('perfil',$user->perfil)}} <br />
+<tr class="login"> <td class="login"> {{ Form::submit('Actualizar Usuario') }} </td> </tr>
+</table>
+{{ Form::close() }}
 
-Password:  {{ Form::password('password')}} <br />
-
-Telefóno:  {{ Form::text('fono',$user->fono)}} <br />
-
-{{ Form::submit('Actualizar usuario')}}
 
 @if($errors->has()) 	
 <ul>
-            {{ $errors->first('Nombre','<li> :message </li>') }}
+            {{ $errors->first('nombre','<li> :message </li>') }}
             {{ $errors->first('password','<li> :message </li>') }}
-            {{ $errors->first('tipo','<li> :message </li>') }}
+            {{ $errors->first('perfil','<li> :message </li>') }}
             {{ $errors->first('email','<li> :message </li>') }}
 </ul>
-@endif
+@endif	
+@stop
+@stop
 
-{{ Form::close() }}
+</body>
+</html>
+

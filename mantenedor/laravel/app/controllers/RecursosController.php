@@ -9,8 +9,7 @@ class RecursosController extends \BaseController {
 
 	public function getIndex() 
     {
-       $recursos = Recurso::all(); // crear variable users, User::all -> pedimos que devuelva todos los usuarios de la tabla users
-       //$users = User::all();
+       $recursos = Recurso::all(); 
        return View::make('recurso.index')->with('recursos',$recursos); // ruta de la vista , ->with ... nombre de la variable en la view y el valor de la variable
     }
 
@@ -46,6 +45,17 @@ class RecursosController extends \BaseController {
 
       $recurso->save();
 
+      $ingresa = New Ingresa;
+      //$ingresa->id_ini = serial
+      date_default_timezone_set("America/Santiago");
+      $currentDate = date("Y-m-d");
+      $ingresa->nombre_recurso = $recurso->nombre_recurso;
+      $ingresa->id_recurso = $recurso->id_recursos;
+      $ingresa->fecha_ini = $currentDate;
+
+      $ingresa->save();
+
+
       return Redirect::to('recursos');
      
   }else{   
@@ -62,8 +72,16 @@ class RecursosController extends \BaseController {
       if(is_null($recurso))
       {
       	return Redirect::to('recursos'); // nombre de la ruta
-      }   	
+      } 
 
+      $eliminar = New Elimina;
+      date_default_timezone_set("America/Santiago");
+      $currentDate = date("Y-m-d");
+      $eliminar->id_recurso = $recurso->id_recursos;
+      $eliminar->fecha_elim = $currentDate;  	
+      $eliminar->nombre_recurso = $recurso->nombre_recurso;
+      $eliminar->save();
+  
       $recurso->delete();
 
       return Redirect::to('recursos'); 
@@ -86,8 +104,7 @@ class RecursosController extends \BaseController {
 	{
                     
     $rules = array(
-      'tipo'           => 'Min:1|Max:4',
-    //'descripcion'    => 'Between:4,8',
+      'tipo'           => 'Min:1|Max:4',      
       'estado'         => 'Integer|Between:0,1', 
       'encargado'      => 'Exists:tbl_usuarios,id_usuario'
       );
@@ -134,7 +151,9 @@ class RecursosController extends \BaseController {
     ->withInput();              
       
          }   
+	   }
 
 
-	}
+
+     
 }

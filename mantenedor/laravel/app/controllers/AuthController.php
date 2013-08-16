@@ -2,12 +2,12 @@
 
 class AuthController extends BaseController
 { 
-   public function getIndex()  // getLogin 
+   public function getIndex() 
 	{ 
 		return View::make('auth.login');
 	}
     
-   public function postIndex() //postLogin
+   public function postIndex() 
  {       
       $rules = array(
       'rut'                   => 'Required|Integer',
@@ -15,7 +15,7 @@ class AuthController extends BaseController
       );
 
       $userdata= array(
-      'id_usuario' => Input::get('rut'),   // RUT
+      'id_usuario' => Input::get('rut'),   
       'password' => Input::get('password'));  
 
       $validator = Validator::make(Input::all(),$rules); 
@@ -24,25 +24,19 @@ class AuthController extends BaseController
        {              
               if(Auth::attempt($userdata)) 
             { 
-              //   unset($userdata['RUT']);   
-
                   if (Auth::check())
-                {
+                { 
                   $user_RUT = Auth::user()->id_usuario;  
 
-                  $user = DB::table('tbl_usuarios')  // USUARIOS
-                   ->where('id_usuario','=',$user_RUT)  // RUT
-                   ->first(array('perfil'));        // tipo
+                  $user = DB::table('tbl_usuarios') 
+                   ->where('id_usuario','=',$user_RUT) 
+                   ->first(array('perfil'));        
 
-                 // Session::put('RUT',$user->RUT); // save user details into session
-
-                     if($user->perfil==1) // si es de tipo 1 (administrador) ->tipo
-                   { 
-                        return View::make('admin.dashboard');
+                     if($user->perfil == 1) // si es de tipo 1 (administrador) 
+                   {   
+                        return View::make('admin.layout');
                    }else
-                        {
-                         // $recursos = Recurso::all(); 
-                         // return View::make('recurso.index')->with('recursos',$recursos);
+                        {                     
                           return Redirect::to('logout');
                         } 
                 } 
@@ -54,10 +48,12 @@ class AuthController extends BaseController
               }                                                                          
    } 
 
-   public function getLogout()
-   {
-      Auth::logout(); // devuelven un objeto DUMP
+
+        public function getLogout()
+     {
+      Auth::logout(); 
 
       return Redirect::to('login');
-   }  
+     }  
+
  } 

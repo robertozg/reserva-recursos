@@ -4,7 +4,9 @@
 	"keywords": ["framework", "laravel"],
 	"require": {
 		"laravel/framework": "4.0.*",
-		"zizaco/entrust": "dev-master"
+		"zizaco/entrust": "dev-master",
+		"dompdf/dompdf" : "dev-master"
+	
 	},
 	"autoload": {
 		"classmap": [
@@ -19,9 +21,6 @@
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan optimize"
-		],
-		"pre-update-cmd": [
-			"php artisan clear-compiled"
 		],
 		"post-update-cmd": [
 			"php artisan optimize"

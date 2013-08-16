@@ -1,25 +1,56 @@
+@extends('admin.layout')
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8"/> 
+<title>  Formulario Recursos </title>  
+</head>
 
-CREAR USUARIO 
+<body>
+@section('content')
+{{ HTML::style('css/style.css') }}
 
-<form method= "POST">
+<h1>Crear Usuario<h1>
 
-	Nombre: <input type = "text" name = "nombre"/> <br />
-    
-	RUT: <input type = "text" name = "rut" /> <br />
+    {{Form::open()}}
 
-	Password: <input type = "password" name = "password" /> <br />
+<table>
+    <tr class="login">
+	   <td class="login">Nombre:                   </td>
+       <td class="login"> {{Form::text('nombre')}} </td>
+    </tr>
+    <tr class="login">  
+       <td class="login"> RUT:                     </td>
+       <td class="login"> {{Form::text('rut')}}    </td>
+    </tr>
+    <tr class="login">
+        <td class="login">Password:                       </td> 
+        <td class="login">{{Form::password('password')}}  </td>
+    </tr>
+    <tr class="login">
+        <td class="login">  Confirmar password:                          </td>
+        <td class="login">  {{Form::password('password_confirmation')}}  </td>
+    </tr>
+    <tr class="login"> 
+        <td class="login">    Perfil de usuario:                           </td> 
+        <td class="login">  {{  Form::select('perfil', array(
+                                             2 => 'Usuario',
+                                              1 => 'Admnistrador'));   }}  </td>
+    </tr>
+    <tr class="login">
+        <td class="login"> Email:                     </td>
+        <td class="login"> {{ Form::text('email')}}   </td>
+    </tr>   
+    <tr class="login">
+        <td class="login"> Teléfono:                   </td>
+        <td class="login"> {{Form::text('fono')}}     </td>
 
-	Confirmar password: <input type="password" name="password_confirmation">  </br>
+    <tr class="login">
+        <td class="login">	{{Form::submit('Crear usuario')}} </td>
+    </tr>
 
-	Perfil de usuario:  {{  Form::select('perfil', array(
-                  1 => 'Usuario',
-                  2 => 'Admnistrador'));   }}  <br />
-
-    Email: <input type = "text" name = "email" /> <br />
-
-    Teléfono: <input type = "text" name = "fono" /> <br />
-
-	<input type = "submit" value = "Crear usuario" />
+</table>
+    {{Form::close()}}
 
     @if($errors->has())  
     <ul>
@@ -27,10 +58,12 @@ CREAR USUARIO
             {{ $errors->first('rut','<li> :message </li>') }}
             {{ $errors->first('password','<li> :message </li>') }}
             {{ $errors->first('password_confirmation','<li> :message </li>') }}
-            {{ $errors->first('tipo','<li> :message </li>') }}
+            {{ $errors->first('perfil','<li> :message </li>') }}
             {{ $errors->first('email','<li> :message </li>') }}
             {{ $errors->first('fono','<li> :message </li>') }}
     </ul>	
     @endif
-
-</form>
+    @stop
+    @stop
+</body>
+</html>
