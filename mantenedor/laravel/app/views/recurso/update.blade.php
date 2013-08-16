@@ -35,8 +35,8 @@
       <tr class="login">
         <td class="login">    Estado::                                     </td>
        <td class="login"> {{  Form::select('estado', array(
-                  'TRUE'  => 'Activo',
-                  'FALSE' => 'No activo'),$recurso->estado);  }}                 </td>
+                  '0'  => 'No Activo',
+                  '1'  => 'Activo'),$recurso->estado);  }}                 </td>
       </tr>  
         <tr class="login"> 
             <td class="login">   {{ Form::submit('Actualizar Recurso')}}   </td>

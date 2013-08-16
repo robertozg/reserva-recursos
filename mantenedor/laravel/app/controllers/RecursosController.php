@@ -63,7 +63,7 @@ class RecursosController extends \BaseController {
        }   
   }
 
-//////////////////////////////////////////////////////////////////////////
+
 
     public function getDelete($recurso_id)
     {  
@@ -123,17 +123,17 @@ class RecursosController extends \BaseController {
 
     if (Input::has('tipo'))
     {
-		$recurso->tipo = Input::get('tipo');
+		  $recurso->tipo = Input::get('tipo');
     }
 
     if (Input::has('descripcion'))
     {
-		$recurso->descripcion  = Input::get('descripcion');
+		  $recurso->descripcion  = Input::get('descripcion');
     }
 
     if (Input::has('encargado'))
     {
-    $recurso->id_encargado = Input::get('encargado');
+      $recurso->id_encargado = Input::get('encargado');
     }
 
 		if (Input::has('estado'))
@@ -141,10 +141,10 @@ class RecursosController extends \BaseController {
 			$recurso->estado = Input::get('estado');
 		}
 
-		$recurso->save();
+		  $recurso->save();
 
 		return Redirect::to('recursos');  
-   }else{
+    }else{
    
      return Redirect::back()
     ->withErrors($validator)

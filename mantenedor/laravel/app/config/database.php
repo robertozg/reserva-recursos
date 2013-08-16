@@ -66,10 +66,10 @@ return array(
 		'pgsql' => array(    
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'port'     => '5432',  // invento
+			'port'     => '5436',  // invento
 			'database' => 'postgres',
 			'username' => 'postgres',
-			'password' => '1234',
+			'password' => 'isw',
 			'charset'  => 'UTF8',
 			'collation' => 'Spanish_Chile.1252', // invento
 			'prefix'   => '',

@@ -21,7 +21,7 @@
     </tr>
     <tr class="login">  
        <td class="login"> RUT:                     </td>
-       <td class="login"> {{Form::text('rut')}}    </td>
+       <td class="login"> {{Form::text('rut','Rut con digito verificador')}}    </td>
     </tr>
     <tr class="login">
         <td class="login">Password:                       </td> 

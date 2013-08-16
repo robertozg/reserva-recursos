@@ -27,33 +27,41 @@ class UserController extends BaseController
   {
      $rut = Input::get('rut');
 
-    function validaRut($rut){
-        if(strpos($rut,"-")==false){
-            $RUT[0] = substr($rut, 0, -1);
-             $RUT[1] = substr($rut, -1);
-    }else{
-          $RUT = explode("-", trim($rut));
-    }
+      function validaRut($rut)
+    {
+             if(strpos($rut,"-")==false){
+                 $RUT[0] = substr($rut, 0, -1);
+                    $RUT[1] = substr($rut, -1);
+        }else{
+               $RUT = explode("-", trim($rut));
+              }
+        
         $elRut = str_replace(".", "", trim($RUT[0]));
-      $factor = 2;
+        $factor = 2;
+
           for($i = strlen($elRut)-1; $i >= 0; $i--):
+
               $factor = $factor > 7 ? 2 : $factor;
               $suma += $elRut{$i}*$factor++;
-      endfor;
+
+          endfor;
+
     $resto = $suma % 11;
     $dv = 11 - $resto;
+
         if($dv == 11){
             $dv=0;
-       }else if($dv == 10){
+                    }else if($dv == 10){
           $dv="k";
-      }else{
-          $dv=$dv;
-       }
-      if($dv == trim(strtolower($RUT[1]))){
-             return true;
-     }else{
-       return Redirect::back();
-          }
+             }else{
+                    $dv=$dv;
+                  }
+
+          if($dv == trim(strtolower($RUT[1]))){
+                  return true;
+            }else{
+                  return Redirect::back();
+                 }
      }
 
     $rules = array(  
@@ -63,7 +71,7 @@ class UserController extends BaseController
       'password_confirmation' => 'Required|Between:4,8', // |AlphaNum
       'perfil'                => 'Required|Integer|Between:1,4', 
       'email'                 => 'Required|Between:3,64|Email|unique:tbl_usuarios,email',
-      'fono'                  => 'Required|Integer|Unique:tbl_usuarios,fono'
+      'fono'                  => 'Required|Integer|Between:7,9|Unique:tbl_usuarios,fono'
     );
 
     $userdata = array(

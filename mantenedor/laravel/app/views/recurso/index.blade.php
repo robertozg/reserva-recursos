@@ -35,17 +35,17 @@
 
 		@foreach($recursos as $recurso)
 		<tr>
-			<td> {{$recurso->id_recursos}} </td>
+			<td> {{$recurso->id_recursos}}    </td>
 			<td> {{$recurso->nombre_recurso}} </td>
-			<td> {{$recurso->descripcion}}  </td>
-			<td> {{$recurso->tipo}} </td>
+			<td> {{$recurso->descripcion}}    </td>
+			<td> {{$recurso->tipo}}			  </td>
 			<td> @if($recurso->estado) 
 				 Activo 
 				@else  					
 				 No Activo  
 		    	@endif	 </td>
 			<td> {{$recurso->id_encargado}} </td> 
-			<td> {{ HTML::link('recursos/delete/'.$recurso->id_recursos,'Borrar') }} </td>
+			<td> {{ HTML::link('recursos/delete/'.$recurso->id_recursos,'Borrar') }}   </td>
 			<td>{{ HTML::link('recursos/update/'.$recurso->id_recursos,'Actualizar') }} </td> 
 		</tr>
 					@endforeach 
