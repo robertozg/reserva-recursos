@@ -21,15 +21,45 @@ class RecursosController extends \BaseController {
     public function postFormulario()
   {
      // Validación  
+
+     $id        = Input::get('id');
+     $encargado = Input::get('encargado');
+
     $rules = array(  
       'nombre'         => 'Required|Min:3|Max:50',
-      'id'             => 'Required|Unique:tbl_recurso,id_recursos|Integer',
+      'id'             => 'Required|Unique:tbl_recurso,id_recursos',
       'tipo'           => 'Required|Integer|Between:1,4',
       'descripcion'    => 'Required',
       'encargado'      => 'Required|exists:tbl_usuarios,id_usuario',
       'estado'         => 'Required|Integer|Between:0,1', 
       );
 
+     function esID($id)
+    {
+          if(is_numeric($id))   // verifica si el campo id es entero
+                return 1;
+          else              
+                return 0;
+    }
+
+      $esId = esID($id);
+
+      if($esId != 1)
+         return Redirect::back()->with('mensaje','ID inválido')->withInput();
+
+      function esEncargado($encargado)
+    {
+          if(is_numeric($encargado))   // verifica si el campo encargado es entero
+                return 1;
+          else              
+                return 0;
+    }
+
+      $Encargado = esEncargado($encargado);
+
+            if($Encargado != 1)
+         return Redirect::back()->with('mensaje','encargado inválido')->withInput();
+ 
     $validator = Validator::make(Input::all(),$rules); 
    
     if($validator->passes())

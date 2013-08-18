@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="UTF-8"/> 
-<title>  Formulario Recursos </title>  
+<title>  Crear Usuarios </title>  
 </head>
 
 <body>
@@ -16,52 +16,61 @@
 
 <table>
     <tr class="login">
-	   <td class="login">Nombre:                   </td>
-       <td class="login"> {{Form::text('nombre')}} </td>
+	   <td class="login"> {{Form::label('nombre','Nombre:') }}                          </td>
+       <td class="login"> {{Form::text('nombre')}}                                      </td>
     </tr>
     <tr class="login">  
-       <td class="login"> RUT:                     </td>
-       <td class="login"> {{Form::text('rut','Rut con digito verificador')}}    </td>
+       <td class="login"> {{Form::label('rut_label','RUT:') }}                          </td>
+       <td class="login"> {{Form::text('rut')}} -  {{Form::text('digito_verificador')}} </td>
     </tr>
     <tr class="login">
-        <td class="login">Password:                       </td> 
-        <td class="login">{{Form::password('password')}}  </td>
+        <td class="login"> {{Form::label('password','Password:') }}                      </td> 
+        <td class="login"> {{Form::password('password')}}                                </td>
     </tr>
     <tr class="login">
-        <td class="login">  Confirmar password:                          </td>
-        <td class="login">  {{Form::password('password_confirmation')}}  </td>
+        <td class="login">  {{Form::label('conf_password','Confirmar Password:') }}      </td>
+        <td class="login">  {{Form::password('password_confirmation')}}                  </td>
     </tr>
+
     <tr class="login"> 
-        <td class="login">    Perfil de usuario:                           </td> 
+        <td class="login">  {{Form::label('perfil_usuario','Perfil de Usuario:') }}      </td> 
         <td class="login">  {{  Form::select('perfil', array(
                                              2 => 'Usuario',
-                                              1 => 'Admnistrador'));   }}  </td>
+                                              1 => 'Admnistrador'));   }}                </td>
     </tr>
     <tr class="login">
-        <td class="login"> Email:                     </td>
-        <td class="login"> {{ Form::text('email')}}   </td>
+        <td class="login"> {{Form::label('email','Email:') }}                             </td>
+        <td class="login"> {{ Form::text('email')}}                                       </td>
     </tr>   
     <tr class="login">
-        <td class="login"> Teléfono:                   </td>
-        <td class="login"> {{Form::text('fono')}}     </td>
+        <td class="login"> {{Form::label('telefono','Telefono:') }}                       </td>
+        <td class="login"> {{Form::text('telefono')}}                                     </td>
 
     <tr class="login">
-        <td class="login">	{{Form::submit('Crear usuario')}} </td>
+        <td class="login">	{{Form::submit('Crear usuario')}}                             </td>
     </tr>
 
 </table>
     {{Form::close()}}
+            @if(Session::has('mensaje'))
+ 
+            {{ Session::get('mensaje') }}
+                     
+            @endif
 
     @if($errors->has())  
     <ul>
             {{ $errors->first('nombre','<li> :message </li>') }}
             {{ $errors->first('rut','<li> :message </li>') }}
+            {{ $errors->first('digito_verificador','<li> :message </li>') }}
             {{ $errors->first('password','<li> :message </li>') }}
             {{ $errors->first('password_confirmation','<li> :message </li>') }}
             {{ $errors->first('perfil','<li> :message </li>') }}
             {{ $errors->first('email','<li> :message </li>') }}
-            {{ $errors->first('fono','<li> :message </li>') }}
+            {{ $errors->first('telefono','<li> :message </li>') }}
     </ul>	
+
+
     @endif
     @stop
     @stop

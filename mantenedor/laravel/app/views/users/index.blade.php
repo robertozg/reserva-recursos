@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8"/> 
-<title>  Página de los usuarios </title>  
+<title>  {{Form::label('usuarios','Usuarios') }}  </title>  
 </head>
 
 <body>
@@ -25,11 +25,11 @@
 @if($users)
 
 	<tr>
-		<td align="center">Rut</td>   
-		<td align="center">Nombre</td>  
-		<td align="center">Perfil de usuario </td>
-		<td align="center">Email</td>
-		<td align="center">Teléfono</td>
+		<td align="center"> {{Form::label('rut','RUT') }}  </td>   
+		<td align="center"> {{Form::label('nombre','Nombre') }}  </td>  
+		<td align="center"> {{Form::label('perfil_usuario','Perfil de Usuario') }}  </td>
+		<td align="center"> {{Form::label('email','Email') }}  </td>
+		<td align="center"> {{Form::label('telefono','Teléfono') }} </td>
 	</tr> 
 
 		@foreach($users as $user)

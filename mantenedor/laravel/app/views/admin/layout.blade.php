@@ -20,11 +20,6 @@
 	</tr> 
 	</table>
 
-
-
-
-
-
 @yield('content')
 </body>
 </html>

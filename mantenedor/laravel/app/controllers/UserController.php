@@ -11,102 +11,98 @@ class UserController extends BaseController
    }  
 
     public function getIndex() 
-    {
-       $users = User::all(); // crear variable users, User::all -> pedimos que devuelva todos los usuarios de la tabla users
-
-       return View::make('users.index')->with('users',$users); // ruta de la vista , ->with ... nombre de la variable en la view y el valor de la variable
-
-    }
+  {
+       $users = User::all(); 
+       return View::make('users.index')->with('users',$users); 
+  }
 
     public function getFormulario()
+  {
+    	return View::make('users.formulario');
+  }
+
+    public function postFormulario()
+  {
+         $r= Input::get('rut');  // rut ingresado por el usuario.
+         $dv = Input::get('digito_verificador'); // digito verificador ingresado por el usuario.
+         $telefono = Input::get('telefono');
+
+         function esRut($r)
     {
-    	return View::make('users.formulario'); // directorio de la vista
+       if(is_numeric($r))   // verifica si el Rut es entero
+               return 1;
+         else
+               return 0;
     }
 
-   public function postFormulario()
-  {
-     $rut = Input::get('rut');
-
-      function validaRut($rut)
+      $esRut = esRut($r);
+      
+       function esTelefono($telefono)
     {
-             if(strpos($rut,"-")==false){
-                 $RUT[0] = substr($rut, 0, -1);
-                    $RUT[1] = substr($rut, -1);
-        }else{
-               $RUT = explode("-", trim($rut));
-              }
-        
-        $elRut = str_replace(".", "", trim($RUT[0]));
-        $factor = 2;
+          if(is_numeric($telefono))   // verifica si el telefono es entero
+                return 1;
+          else
+              
+                return 0;
+    }
 
-          for($i = strlen($elRut)-1; $i >= 0; $i--):
+      $esTelefono = esTelefono($telefono);
 
-              $factor = $factor > 7 ? 2 : $factor;
-              $suma += $elRut{$i}*$factor++;
+        if($esTelefono !=1 || $esRut !=1)
+          return Redirect::back()->withInput()->with('mensaje','Datos inválidos');
 
-          endfor;
+        function dv($r) // con el rut obtiene el digito verificador.
+      {
+          $s=1;
 
-    $resto = $suma % 11;
-    $dv = 11 - $resto;
+          for($m=0;$r!=0;$r/=10)
 
-        if($dv == 11){
-            $dv=0;
-                    }else if($dv == 10){
-          $dv="k";
-             }else{
-                    $dv=$dv;
-                  }
+          $s=($s+$r%10*(9-$m++%6))%11;
 
-          if($dv == trim(strtolower($RUT[1]))){
-                  return true;
-            }else{
-                  return Redirect::back();
-                 }
-     }
+          return chr($s?$s+47:75);
+      }
+          $dv2= dv($r); // obtengo el digito verificador del rut ingresado
+
+          if($dv != $dv2 )  // compara el digito verificador ingresado con el obtenido.
+               return Redirect::back()->with('mensaje','El digito verificador no corresponde al RUT')->withInput(); 
 
     $rules = array(  
       'nombre'                => 'Required|Min:3|Max:50',
-      'rut'                   => 'Required|Integer|unique:tbl_usuarios,id_usuario', // unique:TABLA,COLUMNA
-      'password'              => 'Required|Between:4,8|Confirmed',
-      'password_confirmation' => 'Required|Between:4,8', // |AlphaNum
+      'rut'                   => 'Required|Integer|unique:tbl_usuarios,id_usuario', 
+      'digito_verificador'    => 'Required|Integer',
+      'password'              => 'Required|min:4|max:20|Confirmed',
+      'password_confirmation' => 'Required',
       'perfil'                => 'Required|Integer|Between:1,4', 
-      'email'                 => 'Required|Between:3,64|Email|unique:tbl_usuarios,email',
-      'fono'                  => 'Required|Integer|Between:7,9|Unique:tbl_usuarios,fono'
+      'email'                 => 'Required|Email|unique:tbl_usuarios,email',
+      'telefono'              => 'Required|min:7|max:9|Unique:tbl_usuarios,fono'
     );
-
-    $userdata = array(
-      'nombre_user'=> Input::get('nombre'),
-      'id_usuario' => Input::get('rut'),
-      'password' => Input::get('password'),
-      'perfil' => Input::get('perfil'),
-      'email' => Input::get('email'),
-      'fono' => Input::get('fono')); 
-
-    $validator = Validator::make($userdata,$rules);  //Input::all()
+           
+    $validator = Validator::make(Input::all(),$rules);  //Input::all()
    
-   
-    if($validator->passes())
-   {
-      $user = new User;
+              if($validator->passes())
+          {
+                                   
+              $user = new User;
 
-      $user->nombre_user = Input::get('nombre');
-      $user->id_usuario = Input::get('rut');
-      $user->password = Input::get('password');
-      $user->perfil = Input::get('perfil');
-      $user->email = Input::get('email');
-      $user->fono = Input::get('fono'); 
-      
-      $user->save();
+              $user->nombre_user = Input::get('nombre');
+              $user->id_usuario  = Input::get('rut');
+              $user->password    = Input::get('password');
+              $user->perfil      = Input::get('perfil');
+              $user->email       = Input::get('email');
+              $user->fono        = Input::get('telefono'); 
+              
+              $user->save();
 
-     return Redirect::to('usuarios');
+              return Redirect::to('usuarios');
 
-    }else{
-            return Redirect::back()->withErrors($validator)->withInput();
-         }        
-}
+            }else{
+                    return Redirect::back()->withErrors($validator)->withInput();
+                  }        
+  } 
+         //////////////////////////
 
     public function getDelete($user_id)
-    {     
+ {     
       $user= User::find($user_id);
 
       if(is_null($user) )
@@ -116,10 +112,10 @@ class UserController extends BaseController
         $user->delete();
       
          return Redirect::to('usuarios'); 
-     }
+ }
 
     public function getUpdate($user_id)
-    {
+ {
       $user = User::find($user_id);
 
       if (is_null($user))
@@ -127,9 +123,8 @@ class UserController extends BaseController
        	return Redirect::to('usuarios');
       }
     
-     return View::make('users.update')->with('user',$user); // ruta de la vista  carpeta.archivo.blade.php
-
-    }
+     return View::make('users.update')->with('user',$user); 
+  }
 
 	public function postUpdate($user_id)
 	{
@@ -187,22 +182,5 @@ class UserController extends BaseController
     ->withInput();          
           }  
 	}
-   
-  public function getBuscar()
-  {   
-      return View::make('users.buscar'); // directorio de la vista
-  }
-
-  public function postBuscar()
-  {
-    $id_usuario = Input::get('buscar');
-    $user = User::find($id_usuario);
-
-    if( is_null($user) )
-    return Redirect::back();
-    else 
-    return View::make('users.update')->with('user',$user);       
-  }  
-
 
 }

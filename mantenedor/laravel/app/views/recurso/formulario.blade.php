@@ -17,51 +17,57 @@
 {{Form::open()}}
 <table>
 <tr class="login">
-  <td class="login">Nombre Recurso:                  </td>
-  <td class="login">{{Form::text('nombre')}}         </td>
+  <td class="login">{{Form::label('nombre','Nombre Recurso:') }}                  </td>
+  <td class="login">{{Form::text('nombre')}}                                      </td>
 </tr>
 
 <tr class="login">
-  <td class="login">ID Recurso:                      </td>
-  <td class="login">{{Form::text('id')}}             </td>
+  <td class="login">{{Form::label('id_recurso','ID Recurso:') }}                  </td>
+  <td class="login">{{Form::text('id')}}                                          </td>
 </tr>
 
 <tr class="login">    
-  <td class="login">Tipo:                            </td>
+  <td class="login">{{Form::label('tipo','Tipo de Usuario:') }}                   </td>
   <td class="login"> {{  Form::select('tipo', array(
                   1 => 'Laboratorio',
                   2 => 'Proyector',
                   3 => 'Computador',
-                  4 => 'Otros'));   }} </td>
+                  4 => 'Otros'));   }}                                            </td>
 </tr>
 
 <tr class="login">
-  <td class="login"> Descripción:                       </td>
+  <td class="login"> {{Form::label('descripcion','Descripción:') }}               </td>
   <td class="login"> {{ Form::textarea('descripcion')}} </td>
 </tr> 
 
 <tr class="login">
-  <td class="login"> Encargado:                       </td>
-  <td class="login"> {{Form::text('encargado')}}      </td>
+  <td class="login"> {{Form::label('encargado_label','Encargado:') }}                                              </td>
+  <td class="login"> {{Form::text('encargado')}}    {{Form::label('encargado_label2','Rut del Encargado') }}      </td> 
 </tr>
 
 <tr class="login">
-  <td class="login"> Estado:                        </td>
+  <td class="login"> {{Form::label('estado','Estado:') }}                          </td>
   <td class="login"> {{  Form::select('estado', array(
                   1 => 'Activo',
-                  0 => 'No activo'));   }} </td>
+                  0 => 'No activo'));   }}                                         </td>
 </tr>
 
-<tr class="login"> <td class="login"> {{ Form::submit('Crear Recurso') }} </td> </tr>
+<tr class="login"> 
+  <td class="login"> {{ Form::submit('Crear Recurso') }}                           </td>    
+</tr>
 
 </table>
 {{Form::close()}}
 
-
+      @if(Session::has('mensaje'))
+ 
+     {{ Session::get('mensaje') }}
+                     
+     @endif
 
     @if($errors->has())  
     <ul>
-            {{ $errors->first('Nombre','<li> :message </li>') }}
+            {{ $errors->first('nombre','<li> :message </li>') }}
             {{ $errors->first('id','<li> :message </li>') }}
             {{ $errors->first('tipo','<li> :message </li>') }}
             {{ $errors->first('descripcion','<li> :message </li>') }}
